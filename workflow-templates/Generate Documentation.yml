@@ -2,6 +2,15 @@
 
 name: Generate Documentation
 
+# Controls when the action will run. 
+on:
+  push:
+    tags:
+    - '*'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -10,6 +19,11 @@ jobs:
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENCE_2019_4_12F1 }}
       steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        # with:
+        #   submodules: true
+
       - uses: game-ci/unity-builder@v2.0-alpha-6
         with:
           buildMethod: UnityEditor.SyncVS.SyncSolution
